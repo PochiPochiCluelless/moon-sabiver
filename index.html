@@ -227,7 +227,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   $('title').style.backgroundImage = 'url("' + ASSET.title + '")';
   const dimBg = 'linear-gradient(rgba(2,3,10,.8),rgba(2,3,10,.8)),url("' + ASSET.title + '")';
   $('how').style.backgroundImage = dimBg; $('pick').style.backgroundImage = dimBg;
-  const NAMES = { bisco: 'ビスコ', kanojo: '彼女', pochi: 'ぽち' };
+  const NAMES = { bisco: 'bisco', kanojo: 'moon', pochi: 'Pochi' };
   const INFO = { bisco: '帽子が体のまわりを回る', kanojo: '長い髪で前をなぎ払う', pochi: '肉球をぽんぽん投げる' };
 
   /* ================= 音楽・効果音(WebAudio) ================= */
@@ -393,8 +393,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   const rm = (a, i) => { const l = a.pop(); if (i < a.length) a[i] = l; };
   const BOSSES = [
     { name: '宇宙暗黒大僧正', img: MONK, h: 210, hp: 4250, r: 52, spd: 30, dmg: 10, glow: '150,120,255', msg: '宇宙暗黒大僧正が現れた' },
-    { name: '真実のポチ', img: BP, h: 190, hp: 4900, r: 44, spd: 44, dmg: 10, glow: '255,170,120', msg: '真実のポチが現れた' },
-    { name: '真実の彼女', img: BK, h: 230, hp: 6200, r: 42, spd: 34, dmg: 10, glow: '255,225,240', msg: '真実の彼女が現れた' }
+    { name: '真実のPochi', img: BP, h: 190, hp: 4900, r: 44, spd: 44, dmg: 10, glow: '255,170,120', msg: '真実のPochiが現れた' },
+    { name: '真実のmoon', img: BK, h: 230, hp: 6200, r: 42, spd: 34, dmg: 10, glow: '255,225,240', msg: '真実のmoonが現れた' }
   ];
   const fmt = t => { const s = Math.floor(t); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 
@@ -912,12 +912,12 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       if (e.st <= 0) { e.st = hard ? 2.0 : 2.8; const n = hard ? 5 : 3, sp = hard ? 0.5 : 0.3; for (let k = 0; k < n; k++) fire(base + (k - (n - 1) / 2) * (sp * 2 / (n - 1)), 125, 9, 5); Snd.play('bossshot'); }
       e.ring = (e.ring === undefined ? 4 : e.ring) - dt;
       if (e.ring <= 0) { e.ring = hard ? 5.5 : 7.5; const n = hard ? 14 : 10, o = Math.random() * 6.28; for (let k = 0; k < n; k++) fire(o + k / n * 6.283, 105, 8, 5); Snd.play('bossring'); }
-    } else if (id === 1) {     // 真実のポチ: 突進と肉球の輪
+    } else if (id === 1) {     // 真実のPochi: 突進と肉球の輪
       e.dashT -= dt;
       if (e.tele > 0) { e.tele -= dt; if (e.tele <= 0) { e.dashing = 0.55; e.ddx = Math.cos(e.ta); e.ddy = Math.sin(e.ta); Snd.play('dash'); } }
       else if (e.dashT <= 0 && e.dashing <= 0) { e.tele = 0.7; e.ta = base; e.dashT = hard ? 3.6 : 5; Snd.play('tele'); }
       if (e.st <= 0) { e.st = hard ? 3.4 : 4.6; const n = hard ? 12 : 8, o = Math.random() * 6.28; for (let k = 0; k < n; k++) fire(o + k / n * 6.283, 115, 9, 5, { paw: true }); Snd.play('bossring'); }
-    } else {                   // 真実の彼女: 扇の弾と追う弾、うず巻き
+    } else {                   // 真実のmoon: 扇の弾と追う弾、うず巻き
       if (e.st <= 0) { e.st = hard ? 2.4 : 3.4; const n = hard ? 7 : 5; for (let k = 0; k < n; k++) fire(base + (k - (n - 1) / 2) * 0.28, 140, 8, 5); Snd.play('bossshot'); }
       e.hm = (e.hm === undefined ? 2.5 : e.hm) - dt;
       if (e.hm <= 0) { e.hm = hard ? 4.5 : 6.5; fire(base + 0.5, 80, 10, 6, { home: 2.6 }); fire(base - 0.5, 80, 10, 6, { home: 2.6 }); if (hard) fire(base, 80, 10, 6, { home: 2.6 }); }
@@ -1018,7 +1018,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       }
     }
   }
-  function sweep(m) {   // 彼女: 円周の軌道を、始点から終点まで切り抜ける
+  function sweep(m) {   // moon: 円周の軌道を、始点から終点まで切り抜ける
     const ni = nearest(m, 260);
     if (ni < 0) { m.timer = 0.15; return; }
     m.timer = 0.8 * st.cool; Snd.play('slash');
